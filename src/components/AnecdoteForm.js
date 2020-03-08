@@ -1,5 +1,6 @@
 import React from 'react';
 import {createNote} from '../reducers/anecdoteReducer';
+import {setNotification, clearNotification} from '../reducers/notificationReducer';
 
 const AnecdoteForm = (props) => {
 
@@ -8,6 +9,15 @@ const AnecdoteForm = (props) => {
         const name = event.target.name.value;
         props.store.dispatch(createNote(name));
         event.target.name.value = '';
+
+        setNotificationMessage(`Anecdote created with content: ${name}`);
+    }
+
+    const setNotificationMessage = (message) => {
+        props.store.dispatch(setNotification(message));
+        setTimeout(function(){
+            props.store.dispatch(clearNotification());
+        }, 5000);
     }
 
     return (
