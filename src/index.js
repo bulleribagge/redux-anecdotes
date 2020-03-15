@@ -4,9 +4,10 @@ import { createStore, combineReducers } from 'redux';
 import App from './App';
 import anecdotesReducer from './reducers/anecdoteReducer';
 import notificationReducer from './reducers/notificationReducer';
+import filterReducer from './reducers/filterReducer';
 
 const store = createStore(
-  combineReducers({anecdotes: anecdotesReducer, notification: notificationReducer}),
+  combineReducers({anecdotes: anecdotesReducer, notification: notificationReducer, filter: filterReducer}),
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
