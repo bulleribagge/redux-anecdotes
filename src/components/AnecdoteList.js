@@ -1,26 +1,24 @@
 import React from 'react';
 import { voteAction } from '../reducers/anecdoteReducer';
 import { setNotification, clearNotification } from '../reducers/notificationReducer';
+import { connect } from 'react-redux';
 
 const AnecdoteList = (props) => {
 
-    const anecdotes = () => {
-        const filter = props.store.getState().filter;
-        const anecdotes = props.store.getState().anecdotes;
-        console.log(`hallao eller`, anecdotes);
-        return anecdotes.filter(a => filter ? a.content.indexOf(filter) !== -1 : true);
+    const anecdotesFiltered = () => {
+        return props.anecdotes.filter(a => props.filter ? a.content.indexOf(props.filter) !== -1 : true);
     }
 
     const vote = (id) => {
-        props.store.dispatch(voteAction(id));
-        const name = props.store.getState().anecdotes.find(a => a.id === id).content;
+        props.voteAction(id);
+        const name = props.anecdotes.find(a => a.id === id).content;
         setNotificationMessage(`you voted '${name}'`);
     }
 
     const setNotificationMessage = (message) => {
-        props.store.dispatch(setNotification(message));
+        props.setNotification(message);
         setTimeout(function(){
-            props.store.dispatch(clearNotification());
+            props.clearNotification();
         }, 5000);
     }
 
@@ -28,7 +26,7 @@ const AnecdoteList = (props) => {
         <div>
             <h2>Anecdotes</h2>
             {
-                anecdotes().map(anecdote => 
+                anecdotesFiltered().map(anecdote => 
                 <div key={anecdote.id}>
                     <div>
                         {anecdote.content}
@@ -44,4 +42,11 @@ const AnecdoteList = (props) => {
     )
 }
 
-export default AnecdoteList;
+const mapStateToProps = state => {
+    return {
+        filter: state.filter,
+        anecdotes: state.anecdotes
+    };
+}
+
+export default connect(mapStateToProps, { voteAction, setNotification, clearNotification })(AnecdoteList);
