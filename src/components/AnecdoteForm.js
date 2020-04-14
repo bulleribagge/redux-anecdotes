@@ -1,21 +1,23 @@
 import React from 'react';
-import {createNote} from '../reducers/anecdoteReducer';
-import {setNotification, clearNotification} from '../reducers/notificationReducer';
-import {connect} from 'react-redux';
+import { createNote } from '../reducers/anecdoteReducer';
+import { setNotification } from '../reducers/notificationReducer';
+import { useDispatch } from 'react-redux';
 
-const AnecdoteForm = (props) => {
+const AnecdoteForm = () => {
+
+    const dispatch = useDispatch();
 
     const create = (event) => {
         event.preventDefault();
         const name = event.target.name.value;
-        props.createNote(name);
+        dispatch(createNote(name));
         event.target.name.value = '';
 
         setNotificationMessage(`Anecdote created with content: ${name}`);
     }
 
     const setNotificationMessage = (message) => {
-        props.setNotification(message, 5000);
+        dispatch(setNotification(message, 5000));
     }
 
     return (
@@ -29,4 +31,4 @@ const AnecdoteForm = (props) => {
     )
 }
 
-export default connect(null, {createNote, setNotification, clearNotification})(AnecdoteForm);
+export default AnecdoteForm;
