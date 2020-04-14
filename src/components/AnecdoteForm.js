@@ -1,7 +1,6 @@
 import React from 'react';
 import {createNote} from '../reducers/anecdoteReducer';
 import {setNotification, clearNotification} from '../reducers/notificationReducer';
-import anecdoteService from '../services/anecdotes';
 import {connect} from 'react-redux';
 
 const AnecdoteForm = (props) => {
@@ -9,18 +8,14 @@ const AnecdoteForm = (props) => {
     const create = (event) => {
         event.preventDefault();
         const name = event.target.name.value;
-        const anecdote = anecdoteService.createNew(name);
-        props.createNote(anecdote);
+        props.createNote(name);
         event.target.name.value = '';
 
         setNotificationMessage(`Anecdote created with content: ${name}`);
     }
 
     const setNotificationMessage = (message) => {
-        props.setNotification(message)
-        setTimeout(function(){
-            props.clearNotification()
-        }, 5000);
+        props.setNotification(message, 5000);
     }
 
     return (

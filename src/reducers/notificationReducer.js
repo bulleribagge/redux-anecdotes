@@ -15,12 +15,18 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export const setNotification = (message) => {
-  return {
-    type: 'SET',
-    data: {
-      message: message
-    }
+export const setNotification = (message, timeout) => {
+  return async dispatch => {
+    dispatch({
+      type: 'SET',
+      data: {
+        message: message
+      }
+    })
+    setTimeout(function() {
+      dispatch(clearNotification())
+    }, 
+    timeout);
   }
 }
 

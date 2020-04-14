@@ -16,10 +16,7 @@ const AnecdoteList = (props) => {
     }
 
     const setNotificationMessage = (message) => {
-        props.setNotification(message);
-        setTimeout(function(){
-            props.clearNotification();
-        }, 5000);
+        props.setNotification(message, 5000);
     }
 
     return (
