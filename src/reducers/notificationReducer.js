@@ -1,5 +1,6 @@
 
 const initialState = "";//"This is a notification";
+var currentTimeoutId;
 
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state);
@@ -22,9 +23,11 @@ export const setNotification = (message, timeout) => {
       data: {
         message: message
       }
-    })
-    setTimeout(function() {
+    });
+    clearTimeout(currentTimeoutId);
+    currentTimeoutId = setTimeout(function() {
       dispatch(clearNotification())
+      currentTimeoutId = undefined;
     }, 
     timeout);
   }
